@@ -62,9 +62,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   bool isValidImageUrl(String url) {
     bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
-    bool endsWithFile = url.toLowerCase().endsWith('.png') ||
-        url.toLowerCase().endsWith('.jpg') ||
-        url.toLowerCase().endsWith('.jpeg');
+    bool endsWithFile = url.toLowerCase().endsWith('.png') || url.toLowerCase().endsWith('.jpg') || url.toLowerCase().endsWith('.jpeg');
     return isValidUrl && endsWithFile;
   }
 
@@ -137,8 +135,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
-                onSaved: (price) =>
-                    _formData['price'] = double.parse(price ?? '0'),
+                onSaved: (price) => _formData['price'] = double.parse(price ?? '0'),
                 validator: (_price) {
                   final priceString = _price ?? '';
                   final price = double.tryParse(priceString) ?? -1;
@@ -156,8 +153,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 focusNode: _descriptionFocus,
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
-                onSaved: (description) =>
-                    _formData['description'] = description ?? '',
+                onSaved: (description) => _formData['description'] = description ?? '',
                 validator: (_description) {
                   final description = _description ?? '';
 
@@ -177,15 +173,13 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration:
-                          const InputDecoration(labelText: 'Url da Imagem'),
+                      decoration: const InputDecoration(labelText: 'Url da Imagem'),
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       focusNode: _imageUrlFocus,
                       controller: _imageUrlController,
                       onFieldSubmitted: (_) => _submitForm(),
-                      onSaved: (imageUrl) =>
-                          _formData['imageUrl'] = imageUrl ?? '',
+                      onSaved: (imageUrl) => _formData['imageUrl'] = imageUrl ?? '',
                       validator: (_imageUrl) {
                         final imageUrl = _imageUrl ?? '';
 
@@ -211,12 +205,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       ),
                     ),
                     alignment: Alignment.center,
-                    child: _imageUrlController.text.isEmpty
-                        ? const Text('Informe a Url')
-                        : FittedBox(
-                            fit: BoxFit.cover,
-                            child: Image.network(_imageUrlController.text),
-                          ),
+                    child: _imageUrlController.text.isEmpty ? const Text('Informe a Url') : Image.network(_imageUrlController.text),
                   ),
                 ],
               ),
