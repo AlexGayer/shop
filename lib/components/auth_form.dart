@@ -12,7 +12,7 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _AuthFormState();
 }
 
-class _AuthFormState extends State<AuthForm> {
+class _AuthFormState extends State<AuthForm> with SingleTickerProviderStateMixin {
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
@@ -22,8 +22,33 @@ class _AuthFormState extends State<AuthForm> {
     'password': '',
   };
 
+  AnimationController? _animationController;
+  Animation<Size>? _heightAnimation;
+
   bool _isLogin() => _authMode == AuthMode.login;
   bool _isSignup() => _authMode == AuthMode.signup;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _heightAnimation = Tween(
+      begin: const Size(double.infinity, 310),
+      end: const Size(double.infinity, 400),
+    ).animate(CurvedAnimation(
+      parent: _animationController!,
+      curve: Curves.linear,
+    ));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController?.dispose();
+  }
 
   void _switchAuthMode() {
     setState(() {
@@ -130,8 +155,7 @@ class _AuthFormState extends State<AuthForm> {
               ),
               if (_isSignup())
                 TextFormField(
-                  decoration:
-                      const InputDecoration(labelText: 'Confirmar Senha'),
+                  decoration: const InputDecoration(labelText: 'Confirmar Senha'),
                   keyboardType: TextInputType.emailAddress,
                   obscureText: true,
                   validator: _isLogin()
