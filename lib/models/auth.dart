@@ -31,12 +31,12 @@ class Auth with ChangeNotifier {
     return isAuth ? _userId : null;
   }
 
-  Future<void> _authenticate(
-      String email, String password, String urlFragment) async {
-    final url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:$urlFragment?key=${Constants.webApiKey}';
+  Future<void> _authenticate(String email, String password, String urlFragment) async {
+    final url = 'https://identitytoolkit.googleapis.com/v1/accounts:$urlFragment?key=${Constants.webApiKey}';
+    Map<String, String> headers = {'Content-Type': 'application/json'};
     final response = await http.post(
       Uri.parse(url),
+      headers: headers,
       body: jsonEncode({
         'email': email,
         'password': password,
